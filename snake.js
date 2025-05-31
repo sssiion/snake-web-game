@@ -27,6 +27,8 @@ function draw() {
 
 function update() {
     if (gameOver) return;
+    // 방향이 설정되지 않았으면 이동하지 않음
+    if (direction.x === 0 && direction.y === 0) return;
     // Move snake
     const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
     // Check collision with wall
