@@ -12,9 +12,18 @@
     </style>
 </head>
 <body>
+    <div id="nickname-modal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:10;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;">
+        <div style="background:#222;padding:40px 30px;border-radius:16px;box-shadow:0 4px 16px #0006;text-align:center;">
+            <h2 style="color:#fff;">닉네임을 입력하세요</h2>
+            <input id="nickname-input" type="text" maxlength="12" style="font-size:20px;padding:8px 12px;border-radius:6px;border:none;outline:none;" placeholder="별명" autofocus>
+            <br><br>
+            <button id="nickname-btn" style="font-size:18px;padding:6px 20px;border-radius:6px;background:#0f0;color:#222;font-weight:bold;cursor:pointer;border:none;">시작</button>
+        </div>
+    </div>
     <div style="display: flex; align-items: flex-start;">
         <div>
             <h1>Snake Game</h1>
+            <div id="nickname-view" style="color:#0f0;font-size:20px;text-align:center;margin-bottom:4px;"></div>
             <canvas id="gameCanvas" width="400" height="400" tabindex="0"></canvas>
             <p style="color:#fff; text-align:center;">Use arrow keys to play!</p>
         </div>
