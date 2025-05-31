@@ -9,6 +9,7 @@ let food = { x: 15, y: 15 };
 let gameOver = false;
 let score = 0;
 let snakeColor = '#0f0';
+let headEmoji = "🐍";
 
 function hexToRgb(hex) {
     hex = hex.replace('#', '');
@@ -19,7 +20,6 @@ function hexToRgb(hex) {
 function rgbToHex([r,g,b]) {
     return '#' + [r,g,b].map(x => x.toString(16).padStart(2,'0')).join('');
 }
-const HEAD_EMOJI = "🐍";
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // Draw snake with gradient to white, 머리는 이모지
@@ -32,7 +32,7 @@ function draw() {
             ctx.font = '24px serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(HEAD_EMOJI, segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2 + 2);
+            ctx.fillText(headEmoji, segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2 + 2);
         } else {
             ctx.fillStyle = color;
             ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
@@ -118,13 +118,22 @@ document.addEventListener('keyup', e => {
     }
 });
 
-// 팔레트 클릭 이벤트
+// 팔레트/이모지 클릭 이벤트
 window.addEventListener('DOMContentLoaded', () => {
     const palette = document.getElementById('palette');
     if (palette) {
         palette.addEventListener('click', function(e) {
             if (e.target.dataset.color) {
                 snakeColor = e.target.dataset.color;
+            }
+        });
+    }
+    const emojiPalette = document.getElementById('emoji-palette');
+    if (emojiPalette) {
+        emojiPalette.addEventListener('click', function(e) {
+            if (e.target.dataset.emoji) {
+                headEmoji = e.target.dataset.emoji;
+                draw(); // 즉시 반영
             }
         });
     }
