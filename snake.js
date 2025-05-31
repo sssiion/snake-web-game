@@ -112,7 +112,6 @@ window.addEventListener('DOMContentLoaded', () => {
         palette.addEventListener('click', function(e) {
             if (e.target.dataset.color) {
                 snakeColor = e.target.dataset.color;
-                // 캔버스 테두리(border)는 변경하지 않음
             }
         });
     }
@@ -121,6 +120,7 @@ window.addEventListener('DOMContentLoaded', () => {
         emojiPalette.addEventListener('click', function(e) {
             if (e.target.dataset.emoji) {
                 snakeHeadEmoji = e.target.dataset.emoji;
+                draw(); // 즉시 반영
             }
         });
     }
