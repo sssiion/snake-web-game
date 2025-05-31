@@ -19,20 +19,24 @@ function hexToRgb(hex) {
 function rgbToHex([r,g,b]) {
     return '#' + [r,g,b].map(x => x.toString(16).padStart(2,'0')).join('');
 }
+const HEAD_EMOJI = "🐍";
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Draw snake with gradient to white
+    // Draw snake with gradient to white, 머리는 이모지
     const base = hexToRgb(snakeColor);
     const len = snake.length;
     snake.forEach((segment, idx) => {
-        // idx가 0이면 base, idx가 len-1이면 white
         let t = len === 1 ? 0 : idx / (len - 1); // 0~1
-        // 100단계 스펙트럼 중 현재 단계
-        let spectrum = Math.round(t * 100);
-        // 각 색상 채널을 흰색(255)으로 선형 보간
         let color = rgbToHex(base.map(c => Math.round(c + (255 - c) * t)));
-        ctx.fillStyle = color;
-        ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+        if (idx === 0) {
+            ctx.font = '24px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(HEAD_EMOJI, segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2 + 2);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+        }
     });
     // Draw food
     ctx.fillStyle = '#f00';
