@@ -8,11 +8,12 @@ let direction = { x: 0, y: 0 };
 let food = { x: 15, y: 15 };
 let gameOver = false;
 let score = 0;
+let snakeColor = '#0f0';
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // Draw snake
-    ctx.fillStyle = '#0f0';
+    ctx.fillStyle = snakeColor;
     snake.forEach(segment => {
         ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
     });
@@ -95,6 +96,27 @@ document.addEventListener('keyup', e => {
         direction = { x: 0, y: 0 };
     }
 });
+
+// 팔레트 클릭 이벤트
+window.addEventListener('DOMContentLoaded', () => {
+    const palette = document.getElementById('palette');
+    if (palette) {
+        palette.addEventListener('click', function(e) {
+            if (e.target.dataset.color) {
+                snakeColor = e.target.dataset.color;
+            }
+        });
+    }
+    // 캔버스에 포커스 주기 (방향키 입력 시 스크롤 방지)
+    canvas.setAttribute('tabindex', '0');
+    canvas.focus();
+});
+// 방향키 누를 때 스크롤 방지
+window.addEventListener('keydown', function(e) {
+    if (["ArrowLeft","ArrowUp","ArrowRight","ArrowDown"].includes(e.key)) {
+        e.preventDefault();
+    }
+}, { passive: false });
 
 function gameLoop() {
     update();
