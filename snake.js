@@ -9,21 +9,26 @@ let food = { x: 15, y: 15 };
 let gameOver = false;
 let score = 0;
 let snakeColor = '#0f0';
-let snakeHeadEmoji = null;
 
+function hexToRgb(hex) {
+    hex = hex.replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(x=>x+x).join('');
+    const num = parseInt(hex, 16);
+    return [num >> 16, (num >> 8) & 255, num & 255];
+}
+function rgbToHex([r,g,b]) {
+    return '#' + [r,g,b].map(x => x.toString(16).padStart(2,'0')).join('');
+}
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Draw snake
+    // Draw snake with gradient
+    const base = hexToRgb(snakeColor);
+    const len = snake.length;
     snake.forEach((segment, idx) => {
-        if (idx === 0 && snakeHeadEmoji) {
-            ctx.font = '24px serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(snakeHeadEmoji, segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2 + 2);
-        } else {
-            ctx.fillStyle = snakeColor;
-            ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
-        }
+        let factor = 1 - (idx/len)*0.9; // 머리: 1, 꼬리: 0.1
+        let color = rgbToHex(base.map(c => Math.max(0, Math.min(255, Math.round(c * factor)))));
+        ctx.fillStyle = color;
+        ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
     });
     // Draw food
     ctx.fillStyle = '#f00';
@@ -105,22 +110,13 @@ document.addEventListener('keyup', e => {
     }
 });
 
-// 팔레트/이모지 클릭 이벤트
+// 팔레트 클릭 이벤트
 window.addEventListener('DOMContentLoaded', () => {
     const palette = document.getElementById('palette');
     if (palette) {
         palette.addEventListener('click', function(e) {
             if (e.target.dataset.color) {
                 snakeColor = e.target.dataset.color;
-            }
-        });
-    }
-    const emojiPalette = document.getElementById('emoji-palette');
-    if (emojiPalette) {
-        emojiPalette.addEventListener('click', function(e) {
-            if (e.target.dataset.emoji) {
-                snakeHeadEmoji = e.target.dataset.emoji;
-                draw(); // 즉시 반영
             }
         });
     }
