@@ -11,11 +11,23 @@
     </style>
 </head>
 <body>
-    <div>
-        <h1>Snake Game</h1>
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
-        <p style="color:#fff; text-align:center;">Use arrow keys to play!</p>
-        <script src="snake.js"></script>
+    <div style="display: flex; align-items: flex-start;">
+        <div>
+            <h1>Snake Game</h1>
+            <canvas id="gameCanvas" width="400" height="400" tabindex="0"></canvas>
+            <p style="color:#fff; text-align:center;">Use arrow keys to play!</p>
+        </div>
+        <div style="margin-left: 30px;">
+            <h3 style="color:#fff;">Snake Color</h3>
+            <div id="palette">
+                <button style="background:#0f0;width:32px;height:32px;border:2px solid #fff;margin:2px;cursor:pointer;" data-color="#0f0"></button>
+                <button style="background:#00f;width:32px;height:32px;border:2px solid #fff;margin:2px;cursor:pointer;" data-color="#00f"></button>
+                <button style="background:#ff0;width:32px;height:32px;border:2px solid #fff;margin:2px;cursor:pointer;" data-color="#ff0"></button>
+                <button style="background:#f0f;width:32px;height:32px;border:2px solid #fff;margin:2px;cursor:pointer;" data-color="#f0f"></button>
+                <button style="background:#fff;width:32px;height:32px;border:2px solid #fff;margin:2px;cursor:pointer;" data-color="#fff"></button>
+            </div>
+        </div>
     </div>
+    <script src="snake.js"></script>
 </body>
 </html>
