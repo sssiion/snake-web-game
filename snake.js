@@ -27,8 +27,8 @@ function draw() {
 
 function update() {
     if (gameOver) return;
-    // 방향이 설정되지 않았으면 이동하지 않음
-    if (direction.x === 0 && direction.y === 0) return;
+    // 방향키가 눌려있지 않으면 이동하지 않음
+    if (!keyPressed || (direction.x === 0 && direction.y === 0)) return;
     // Move snake
     const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
     // Check collision with wall
@@ -71,7 +71,9 @@ function placeFood() {
     }
 }
 
+let keyPressed = false;
 document.addEventListener('keydown', e => {
+    keyPressed = true;
     switch (e.key) {
         case 'ArrowLeft':
             if (direction.x !== 1) direction = { x: -1, y: 0 };
@@ -85,6 +87,12 @@ document.addEventListener('keydown', e => {
         case 'ArrowDown':
             if (direction.y !== -1) direction = { x: 0, y: 1 };
             break;
+    }
+});
+document.addEventListener('keyup', e => {
+    if (["ArrowLeft","ArrowUp","ArrowRight","ArrowDown"].includes(e.key)) {
+        keyPressed = false;
+        direction = { x: 0, y: 0 };
     }
 });
 
