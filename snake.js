@@ -120,6 +120,27 @@ document.addEventListener('keyup', e => {
 
 // 팔레트/이모지 클릭 이벤트
 window.addEventListener('DOMContentLoaded', () => {
+    // 닉네임 입력 모달 처리
+    const modal = document.getElementById('nickname-modal');
+    const input = document.getElementById('nickname-input');
+    const btn = document.getElementById('nickname-btn');
+    const view = document.getElementById('nickname-view');
+    function startGameWithNickname() {
+        let nickname = input.value.trim();
+        if (!nickname) {
+            input.focus();
+            return;
+        }
+        modal.style.display = 'none';
+        view.textContent = nickname;
+        canvas.focus();
+    }
+    btn.onclick = startGameWithNickname;
+    input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') startGameWithNickname();
+    });
+    setTimeout(() => input.focus(), 100);
+
     const palette = document.getElementById('palette');
     if (palette) {
         palette.addEventListener('click', function(e) {
