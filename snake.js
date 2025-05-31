@@ -21,12 +21,16 @@ function rgbToHex([r,g,b]) {
 }
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Draw snake with gradient
+    // Draw snake with gradient to white
     const base = hexToRgb(snakeColor);
     const len = snake.length;
     snake.forEach((segment, idx) => {
-        let factor = 1 - (idx/len)*0.9; // 머리: 1, 꼬리: 0.1
-        let color = rgbToHex(base.map(c => Math.max(0, Math.min(255, Math.round(c * factor)))));
+        // idx가 0이면 base, idx가 len-1이면 white
+        let t = len === 1 ? 0 : idx / (len - 1); // 0~1
+        // 100단계 스펙트럼 중 현재 단계
+        let spectrum = Math.round(t * 100);
+        // 각 색상 채널을 흰색(255)으로 선형 보간
+        let color = rgbToHex(base.map(c => Math.round(c + (255 - c) * t)));
         ctx.fillStyle = color;
         ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
     });
