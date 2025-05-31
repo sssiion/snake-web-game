@@ -134,6 +134,10 @@ window.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'none';
         view.textContent = nickname;
         canvas.focus();
+        if (!gameStarted) {
+            gameStarted = true;
+            gameLoop();
+        }
     }
     btn.onclick = startGameWithNickname;
     input.addEventListener('keydown', e => {
@@ -169,11 +173,13 @@ window.addEventListener('keydown', function(e) {
     }
 }, { passive: false });
 
+let gameStarted = false;
 function gameLoop() {
+    if (!gameStarted) return;
     update();
     draw();
     if (!gameOver) {
         setTimeout(gameLoop, 100);
     }
 }
-gameLoop();
+// gameLoop(); // 최초 자동 실행 제거
