@@ -9,13 +9,21 @@ let food = { x: 15, y: 15 };
 let gameOver = false;
 let score = 0;
 let snakeColor = '#0f0';
+let snakeHeadEmoji = null;
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // Draw snake
-    ctx.fillStyle = snakeColor;
-    snake.forEach(segment => {
-        ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+    snake.forEach((segment, idx) => {
+        if (idx === 0 && snakeHeadEmoji) {
+            ctx.font = '24px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(snakeHeadEmoji, segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2 + 2);
+        } else {
+            ctx.fillStyle = snakeColor;
+            ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+        }
     });
     // Draw food
     ctx.fillStyle = '#f00';
@@ -97,7 +105,7 @@ document.addEventListener('keyup', e => {
     }
 });
 
-// 팔레트 클릭 이벤트
+// 팔레트/이모지 클릭 이벤트
 window.addEventListener('DOMContentLoaded', () => {
     const palette = document.getElementById('palette');
     if (palette) {
@@ -105,6 +113,14 @@ window.addEventListener('DOMContentLoaded', () => {
             if (e.target.dataset.color) {
                 snakeColor = e.target.dataset.color;
                 // 캔버스 테두리(border)는 변경하지 않음
+            }
+        });
+    }
+    const emojiPalette = document.getElementById('emoji-palette');
+    if (emojiPalette) {
+        emojiPalette.addEventListener('click', function(e) {
+            if (e.target.dataset.emoji) {
+                snakeHeadEmoji = e.target.dataset.emoji;
             }
         });
     }
